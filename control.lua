@@ -539,7 +539,7 @@ function This_MOD.toggle_gui(Data)
 
         --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-        --- Contenedor en los pies
+        --- Contenedor para la confirmación
         Data.GUI.flow_confirm = {}
         Data.GUI.flow_confirm.type = "flow"
         Data.GUI.flow_confirm.name = "flow_confirm"
