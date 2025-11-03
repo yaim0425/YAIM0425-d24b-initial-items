@@ -211,6 +211,15 @@ function This_MOD.load_events()
         This_MOD.change_text(This_MOD.create_data(event))
     end)
 
+    --- Al seleccionar o deseleccionar un nuevo objeto
+    script.on_event({
+        defines.events.on_gui_elem_changed
+    }, function(event)
+        local Data = This_MOD.create_data(event)
+        This_MOD.item_select(Data)
+        This_MOD.item_clear(Data)
+    end)
+
     -- --- Copar la configuración de una antena en otra
     -- script.on_event({
     --     defines.events.on_entity_settings_pasted
@@ -583,6 +592,7 @@ function This_MOD.toggle_gui(Data)
         Data.GUI.slider.value_step = 1
         Data.GUI.slider = Data.GUI.flow_4.add(Data.GUI.slider)
         Data.GUI.slider.style = Prefix .. "slider"
+        Data.GUI.slider.enabled = false
 
         --- Valor del slider
         Data.GUI.textfield = {}
@@ -592,6 +602,7 @@ function This_MOD.toggle_gui(Data)
         Data.GUI.textfield.numeric = true
         Data.GUI.textfield = Data.GUI.flow_4.add(Data.GUI.textfield)
         Data.GUI.textfield.style = "slider_value_textfield"
+        Data.GUI.textfield.enabled = false
 
         --- Botón de confirmación
         Data.GUI.button_add = {}
@@ -600,6 +611,7 @@ function This_MOD.toggle_gui(Data)
         Data.GUI.button_add.sprite = "utility/check_mark_white"
         Data.GUI.button_add = Data.GUI.flow_4.add(Data.GUI.button_add)
         Data.GUI.button_add.style = Prefix .. "button_green"
+        Data.GUI.button_add.enabled = false
 
         --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -647,7 +659,11 @@ function This_MOD.toggle_gui(Data)
 end
 
 function This_MOD.change_slider(Data)
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
     Data.GUI.textfield.text = tostring(Data.GUI.slider.slider_value)
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 end
 
 function This_MOD.change_text(Data)
@@ -677,6 +693,101 @@ function This_MOD.change_text(Data)
     if Data.Event.element == Data.GUI.textbox then
         Data.GUI.button_green.enabled = Data.GUI.textfield.text ~= ""
     end
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+end
+
+function This_MOD.item_select(Data)
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    --- Validación
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+    if not Data.GUI[0] then return end
+
+    local name = Data.GUI[0].elem_value
+    if not name then return end
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+
+
+
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    --- Establecer los valores
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+    --- Deseleccionar el objeto
+    if Data.GUI.Focus then
+        Data.GUI.Focus = nil
+        -- This_MOD.Show_MyList(Data)
+        Data.GUI[0].elem_value = name
+    end
+
+    --- Habilitar los elementos
+    Data.GUI[0].style = This_MOD.slot.new
+    Data.GUI.slider.enabled = true
+    Data.GUI.button_add.enabled = true
+    Data.GUI.textfield.enabled = true
+
+    --- Establecer los valores
+    local StackSize = prototypes.item[name].stack_size
+    Data.GUI.slider.set_slider_minimum_maximum(0, 10 * StackSize)
+    Data.GUI.slider.set_slider_value_step(StackSize)
+
+    --- Buscar en la lista actual
+    for i, item in pairs(Data.My_list) do
+        if item.name == name then
+            StackSize = item.count or 0
+            Data.GUI[i].style = This_MOD.slot.select
+            Data.GUI[0].style = This_MOD.slot.select
+            Data.GUI.Focus = item
+            break
+        end
+    end
+
+    --- Mostrar el valor
+    Data.GUI.textfield.text = tostring(StackSize)
+    Data.GUI.slider.slider_value = StackSize
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+end
+
+function This_MOD.item_clear(Data)
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    --- Validación
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+    if not Data.GUI[0] then return end
+
+    local name = Data.GUI[0].elem_value
+    if name then return end
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+
+
+
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    --- Establecer los valores
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+    --- Dejar la selección del inventario
+    if Data.GUI.Focus then
+        Data.GUI.Focus = nil
+        -- This_MOD.Show_MyList(Data)
+    end
+
+    --- Limpiar los valores
+    Data.GUI[0].style = This_MOD.slot.default
+    Data.GUI.textfield.text = "0"
+    Data.GUI.slider.slider_value = 0
+
+    --- Deshabilitar los elementos
+    Data.GUI.slider.enabled = false
+    Data.GUI.button_add.enabled = false
+    Data.GUI.textfield.enabled = false
 
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 end
