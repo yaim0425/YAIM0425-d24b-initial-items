@@ -197,6 +197,13 @@ function This_MOD.load_events()
     --- Acciones propias del MOD
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
+    --- Al mover el slider
+    script.on_event({
+        defines.events.on_gui_value_changed
+    }, function(event)
+        This_MOD.change_slider(This_MOD.Create_data(event))
+    end)
+
     -- --- Copar la configuración de una antena en otra
     -- script.on_event({
     --     defines.events.on_entity_settings_pasted
@@ -630,6 +637,10 @@ function This_MOD.toggle_gui(Data)
     end
 
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+end
+
+function This_MOD.change_slider(Data)
+    Data.GUI.textfield.text = tostring(Data.GUI.slider.slider_value)
 end
 
 ---------------------------------------------------------------------------------------------------
