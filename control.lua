@@ -201,7 +201,14 @@ function This_MOD.load_events()
     script.on_event({
         defines.events.on_gui_value_changed
     }, function(event)
-        This_MOD.change_slider(This_MOD.Create_data(event))
+        This_MOD.change_slider(This_MOD.create_data(event))
+    end)
+
+    --- Al cambiar la cantidad de la caja de texto
+    script.on_event({
+        defines.events.on_gui_text_changed
+    }, function(event)
+        This_MOD.change_text(This_MOD.create_data(event))
     end)
 
     -- --- Copar la configuración de una antena en otra
@@ -641,6 +648,37 @@ end
 
 function This_MOD.change_slider(Data)
     Data.GUI.textfield.text = tostring(Data.GUI.slider.slider_value)
+end
+
+function This_MOD.change_text(Data)
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    --- Al cambiar la cantidad de la caja de texto
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+    if Data.Event.element == Data.GUI.textfield then
+        local Text = Data.GUI.textfield.text
+        local Value = tonumber(Text, 10) or 0
+        if Value > Data.GUI.slider.get_slider_maximum() then
+            Value = Data.GUI.slider.get_slider_maximum()
+        end
+        Data.GUI.slider.slider_value = Value
+    end
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+
+
+
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    --- Al cambiar el texto a importar
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+    if Data.Event.element == Data.GUI.textbox then
+        Data.GUI.button_green.enabled = Data.GUI.textfield.text ~= ""
+    end
+
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 end
 
 ---------------------------------------------------------------------------------------------------
