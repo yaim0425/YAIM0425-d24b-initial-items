@@ -1052,7 +1052,7 @@ function This_MOD.button_action(Data)
                 if Found then break end
             end
             if not Found then
-                local i = GPrefix.get_key(Data.MyList, Data.GUI.Found)
+                local i = GMOD.get_key(Data.MyList, Data.GUI.Found)
                 table.remove(Data.MyList, i)
                 Data.GUI.Found = nil
             end
