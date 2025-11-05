@@ -804,7 +804,7 @@ function This_MOD.button_action(Data)
 
         if not JSON then
             This_MOD.show_import(Data)
-            This_MOD.msg_global(Data, {
+            This_MOD.print_global(Data, {
                 "failed-to-import-string",
                 "[color=default]" ..
                 string.sub(Text, 1, This_MOD.string_length) ..
@@ -817,7 +817,7 @@ function This_MOD.button_action(Data)
         local Items = helpers.json_to_table(JSON) or {}
         if #Items == 0 then
             This_MOD.show_import(Data)
-            This_MOD.msg_global(Data, {
+            This_MOD.print_global(Data, {
                 "failed-to-import-string",
                 "[color=default]" ..
                 string.sub(Text, 1, This_MOD.string_length) ..
@@ -878,7 +878,7 @@ function This_MOD.button_action(Data)
         Data.MyList = MyList
 
         --- Informar del cambio
-        This_MOD.msg_player(Data, { "gui-migrated-content.changed-item" })
+        This_MOD.print_player(Data, { "gui-migrated-content.changed-item" })
 
         --- Entregar los objetos
         This_MOD.insert_items(Data)
@@ -993,7 +993,7 @@ function This_MOD.button_action(Data)
     Flag = Flag and Data.GUI.Action == This_MOD.action.apply
     if Flag then
         if Data.gMOD.Block_implication then
-            This_MOD.msg_player(Data, { "gui-selector.feature-disabled" })
+            This_MOD.print_player(Data, { "gui-selector.feature-disabled" })
         else
             Data.gMOD.Block_implication = true
             for _, player in pairs(game.connected_players) do
@@ -1194,7 +1194,7 @@ function This_MOD.insert_items(Data)
     end
 
     if Data.gPlayer.Full_inventory then
-        This_MOD.msg_player(Data, { "inventory-full-message.main" })
+        This_MOD.print_player(Data, { "inventory-full-message.main" })
     end
 
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
@@ -1529,7 +1529,7 @@ end
 
 ---------------------------------------------------------------------------------------------------
 
-function This_MOD.get_msg_format(Data)
+function This_MOD.get_format(Data, msg)
     return { "",
         "[color=default]",
         { "description.initial-items" },
@@ -1546,20 +1546,18 @@ function This_MOD.get_msg_format(Data)
         Data.Player.name,
         "[/color]",
 
-        " "
+        " ",
+
+        msg
     }
 end
 
-function This_MOD.msg_player(Data, msg)
-    local Msg = This_MOD.get_msg_format(Data)
-    table.insert(Msg, msg)
-    Data.Player.print(Msg)
+function This_MOD.print_player(Data, msg)
+    Data.Player.print(This_MOD.get_format(Data, msg))
 end
 
-function This_MOD.msg_global(Data, msg)
-    local Msg = This_MOD.get_msg_format(Data)
-    table.insert(Msg, msg)
-    game.print(Msg)
+function This_MOD.print_global(Data, msg)
+    game.print(This_MOD.get_format(Data, msg))
 end
 
 ---------------------------------------------------------------------------------------------------
