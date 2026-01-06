@@ -557,6 +557,8 @@ end
 function This_MOD.change_slider(Data)
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
+    if not Data.GUI.slider then return end
+    if Data.Event.element ~= Data.GUI.slider then return end
     Data.GUI.textfield.text = tostring(Data.GUI.slider.slider_value)
 
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
