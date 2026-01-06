@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.2
+Date: 2026-01-05
+  Info:
+    - Validation added for the slider
+    - Deletion of default import text
+
 Version: 0.0.1
 Date: 2025-12-31
   Info:
