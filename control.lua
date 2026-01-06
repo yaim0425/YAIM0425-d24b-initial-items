@@ -1319,9 +1319,7 @@ function This_MOD.show_import(Data)
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
     Data.GUI.flow_items.visible = false
-    Data.GUI.textbox.text =
-    "eNqNlMtuAjEMRf9l1kSCvqTyK1UXmRl3sEji1HFKq4p/rwFREqR5rH1yfW3HfvttgvXQbBthi8Ekodismo5ykGb7sj6u/gFHAybBzjC1JDfo4bmkVIDtAKbbQSqgxwpi+MwaBr7HHtYlFumgSDqgdLsbUylZIa+WWvLtjXitDJGzbKIN4IymxeghFBmfqhJt0oSSmaFCSuZA1EO4N16ZQqZpQEtXN9PEpY1iw34E0YGFFInFtOAKnU1l98MmMctQ+I4MKS2kc+iBB9ZQf8dVLtvs9gaD9lXHPcKcPS7Uu5pciKfoUGYyzzDXjDNYmzno55kpdSbsKAxmZ7W2flHTZpjkrdNf76AT1i2J5GCE9NBj9ovQFodFXMptEitIYQSIGGHsd51iRshcJjwmkH0cCekxc2Pap5hJOATrJl7rep4P4hTnqCNPgl9lD4p4Z3kgc7BD1YNyiC5jPwVYFnQO+GcK0jRFreWJqK7HptoL1P0RLiU3x/c/lI0EwQ=="
-    -- Data.GUI.textbox.text = ""
+    Data.GUI.textbox.text = ""
     Data.GUI.textbox.read_only = false
     Data.GUI.flow_IO.visible = true
 
