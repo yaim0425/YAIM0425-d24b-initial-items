@@ -557,7 +557,6 @@ end
 function This_MOD.change_slider(Data)
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-    if not Data.GUI.slider then return end
     if Data.Event.element ~= Data.GUI.slider then return end
     Data.GUI.textfield.text = tostring(Data.GUI.slider.slider_value)
 
@@ -1256,11 +1255,19 @@ function This_MOD.show_MyList(Data)
         end)()
     end
 
-    --- Rellenar la tabla
-    local iList = #Data.MyList
-    local Max = 10 * This_MOD.slot_row_min
-    local Left = iList % 10
-    if Left > 0 and iList > Max then Max = iList + (10 - Left) end
+    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+    --- Llenar la tabla
+    local iList = #Data.MyList --- Número de elementos en la lista
+    local Left = iList % 10 --- Elementos en la última fila
+    local Max = 10 * This_MOD.slot_row_min --- Número máximo de elementos a mostrar
+
+    --- Ajustar el máximo si es necesario
+    if Left >= 0 and iList >= Max then
+        Max = iList + (10 - Left)
+    end
+
+    --- Rellenar con espacios vacíos
     for i = iList + 1, Max, 1 do
         Data.GUI[i] = {}
         Data.GUI[i].type = "sprite-button"
